@@ -1,0 +1,33 @@
+{
+	"name": "dprox",
+	"version": "1.0.0",
+	"description": "declarative reverse proxy for local development",
+	"author": "FND",
+	"license": "Apache-2.0",
+	"homepage": "https://github.com/FND/dprox",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/FND/dprox.git"
+	},
+	"bugs": {
+		"url": "https://github.com/FND/dprox/issues"
+	},
+	"main": "dprox.js",
+	"bin": {
+		"dprox": "dprox.js"
+	},
+	"scripts": {
+		"test": "eslint --cache *.js && echo ✓"
+	},
+	"engines": {
+		"node": ">=6"
+	},
+	"dependencies": {
+		"express": "^4.16.3",
+		"express-http-proxy": "^1.1.0"
+	},
+	"devDependencies": {
+		"eslint-config-fnd": "^1.3.0",
+		"release-util-fnd": "^1.1.1"
+	}
+}
