@@ -20,9 +20,9 @@ create a `proxy.config.js`:
 module.exports = {
     self: "localhost:8080",
     "/foo": {
-            uri: "localhost:8081",
-            preserveHost: true,
-            preservePrefix: true
+        uri: "localhost:8081",
+        preserveHost: true,
+        preservePrefix: true
     },
     "/bar": {
         uri: "localhost:8082",
