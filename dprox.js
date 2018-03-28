@@ -54,7 +54,7 @@ function makeProxy(host, port, hosts) {
 
 function loadConfig(filepath, host = HOST) {
 	try {
-		var config = require(config); // eslint-disable-line no-var
+		var config = require(filepath); // eslint-disable-line no-var
 	} catch(err) {
 		if(err.code === "MODULE_NOT_FOUND") {
 			abort(`missing configuration file: ${config}`);
