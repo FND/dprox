@@ -52,14 +52,14 @@ an optional `self` entry defines the proxy's own address (which defaults to
 each entry is either a URI string or an object with the following options:
 
 * `uri` is the address to pass requests to
-* `preserveHost`, if truthy, passes the HTTP `Host` header through to the
+* `preserveHost: true` passes the HTTP `Host` header through to the respective
+  application
+* `preservePrefix: true` passes the entry's path (URI prefix) through to the
   respective application
-* `preservePrefix`, if truthy, passes the configuration's URI prefix through to
-  the respective application
-* `log`, if truthy, activates logging for the respective entry
+* `log`, if truthy, activates logging for this entry
     * if the value is a function, it will be invoked with the respective HTTP
-      request object (e.g. `log: req => { console.log(req.method +  req.url) }`)
-    * otherwise, unless `true`, the value will be prepended to the default log
+      request object (e.g. `log: req => { console.log(req.method + req.url); }`)
+    * otherwise the value, unless `true`, will be prepended to the default log
       message (e.g. `log: "[PROXY]"`)
 
 
