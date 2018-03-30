@@ -46,18 +46,21 @@ Configuration
 
 `proxy.config.js` is expected to export an object mapping paths to applications
 
-each entry has the following options:
+an optional `self` entry defines the proxy's own address (which defaults to
+`"localhost:3333"`)
 
-* `uri` is the address of the application to proxy
-* `preserveHost` passes the HTTP `Host` header through to the respective
-  application
-* `preservePrefix` passes the configuration's URI prefix through to the
+each entry is either a URI string or an object with the following options:
+
+* `uri` is the address to pass requests to
+* `preserveHost`, if truthy, passes the HTTP `Host` header through to the
   respective application
-
-if only a string is provided instead of an object, that serves as a shortcut for
-`{ uri }`
-
-`self` defines the proxy's own address and defaults to `"localhost:3333"`
+* `preservePrefix`, if truthy, passes the configuration's URI prefix through to
+  the respective application
+* `log`, if truthy, activates logging for the respective entry
+    * if the value is a function, it will be invoked with the respective HTTP
+      request object (e.g. `log: req => { console.log(req.method +  req.url) }`)
+    * otherwise, unless `true`, the value will be prepended to the default log
+      message (e.g. `log: "[PROXY]"`)
 
 
 Contributing

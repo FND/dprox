@@ -41,6 +41,19 @@ function makeProxy(host, port, hosts) {
 			if(host.preservePrefix) {
 				options.proxyReqPathResolver = req => req.originalUrl;
 			}
+			let { log } = host;
+			if(log) {
+				if(!log.call) {
+					let prefix = log === true ? "" : `${log} `;
+					log = req => { // eslint-disable-next-line no-console
+						console.log(`${prefix}${req.method} ${req.url}`);
+					};
+				}
+				options.filter = req => { // XXX: hacky
+					log(req);
+					return true;
+				};
+			}
 			app.use(route, proxy(uri, options));
 		}
 	});
