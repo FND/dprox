@@ -41,6 +41,11 @@ function makeProxy(host, port, hosts) {
 			if(host.preservePrefix) {
 				options.proxyReqPathResolver = req => req.originalUrl;
 			}
+			if(host.headers) {
+				options.userResHeaderDecorator = headers => Object.assign({},
+						headers, host.headers);
+			}
+
 			let { log } = host;
 			if(log) {
 				if(!log.call) {
@@ -54,6 +59,7 @@ function makeProxy(host, port, hosts) {
 					return true;
 				};
 			}
+
 			app.use(route, proxy(uri, options));
 		}
 	});
