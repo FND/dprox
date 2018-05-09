@@ -1,6 +1,8 @@
 dprox – declarative reverse proxy for local development
 =======================================================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/FND/dprox.svg)](https://greenkeeper.io/)
+
 a simple wrapper around
 [express-http-proxy](https://github.com/villadora/express-http-proxy)
 
