@@ -34,19 +34,26 @@ function makeProxy(host, port, hosts) {
 		if(uri === undefined) { // `host` is the URI
 			app.use(route, proxy(host));
 		} else { // `host` provides custom options
+			let { requestHeaders, responseHeaders, log } = host;
 			let options = {};
+
 			if(host.preserveHost) {
 				options.preserveHostHdr = true;
 			}
 			if(host.preservePrefix) {
 				options.proxyReqPathResolver = req => req.originalUrl;
 			}
-			if(host.headers) {
+			if(requestHeaders) {
+				options.proxyReqOptDecorator = proxyReqOptions => {
+					Object.assign(proxyReqOptions.headers, requestHeaders);
+					return proxyReqOptions;
+				};
+			}
+			if(responseHeaders) {
 				options.userResHeaderDecorator = headers => Object.assign({},
-						headers, host.headers);
+						headers, responseHeaders);
 			}
 
-			let { log } = host;
 			if(log) {
 				if(!log.call) {
 					let prefix = log === true ? "" : `${log} `;

@@ -58,9 +58,12 @@ each entry is either a URI string or an object with the following options:
   application
 * `preservePrefix: true` passes the entry's path (URI prefix) through to the
   respective application
-* `headers`: an object of custom headers to add to the response (e.g.
-  `{ "X-TOKEN": "abc123" }`) - these are mixed into and take precedence over any
-  existing response headers
+* `requestHeaders`: an object of custom headers to add to any incoming request
+  (e.g. `{ "X-TOKEN": "abc123" }`) - these are added to and take precedence over
+  any existing request headers
+* `responseHeaders`: an object of custom headers to add to any outgoing response
+  (e.g. `{ "Cache-Control": "max-age=1" }`) - these are added to and take
+  precedence over any existing response headers
 * `log`, if truthy, activates logging for this entry
     * if the value is a function, it will be invoked with the respective HTTP
       request object (e.g. `log: req => { console.log(req.method + req.url); }`)
