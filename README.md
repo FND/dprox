@@ -58,6 +58,7 @@ each entry is either a URI string or an object with the following options:
   application
 * `preservePrefix: true` passes the entry's path (URI prefix) through to the
   respective application
+* `insecure: true` skips verification of SSL/TLS certificates
 * `requestHeaders`: an object of custom headers to add to any incoming request
   (e.g. `{ "X-TOKEN": "abc123" }`) - these are added to and take precedence over
   any existing request headers

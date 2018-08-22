@@ -43,12 +43,16 @@ function makeProxy(host, port, hosts) {
 			if(host.preservePrefix) {
 				options.proxyReqPathResolver = req => req.originalUrl;
 			}
-			if(requestHeaders) {
-				options.proxyReqOptDecorator = proxyReqOptions => {
+			options.proxyReqOptDecorator = proxyReqOptions => {
+				if(host.insecure) {
+					proxyReqOptions.rejectUnauthorized = false;
+				}
+				if(requestHeaders) {
 					Object.assign(proxyReqOptions.headers, requestHeaders);
-					return proxyReqOptions;
-				};
-			}
+				}
+				return proxyReqOptions;
+			};
+
 			if(responseHeaders) {
 				options.userResHeaderDecorator = headers => Object.assign({},
 						headers, responseHeaders);
