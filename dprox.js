@@ -30,6 +30,12 @@ function makeProxy(host, port, hosts) {
 
 	Object.keys(hosts).forEach(route => {
 		let host = hosts[route];
+
+		if(host.call) { // `host` is an Express middleware function
+			app.use(route, host);
+			return;
+		}
+
 		let { uri } = host;
 		if(uri === undefined) { // `host` is the URI
 			app.use(route, proxy(host));

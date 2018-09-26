@@ -51,7 +51,9 @@ Configuration
 an optional `self` entry defines the proxy's own address (which defaults to
 `"localhost:3333"`)
 
-each entry is either a URI string or an object with the following options:
+each entry is either a URI string, an
+[Express middleware function](http://expressjs.com/en/guide/using-middleware.html)
+or an object with the following options:
 
 * `uri` is the address to pass requests to
 * `preserveHost: true` passes the HTTP `Host` header through to the respective
