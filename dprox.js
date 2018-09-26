@@ -33,46 +33,47 @@ function makeProxy(host, port, hosts) {
 		let { uri } = host;
 		if(uri === undefined) { // `host` is the URI
 			app.use(route, proxy(host));
-		} else { // `host` provides custom options
-			let { requestHeaders, responseHeaders, log } = host;
-			let options = {};
+			return;
+		}
 
-			if(host.preserveHost) {
-				options.preserveHostHdr = true;
-			}
-			if(host.preservePrefix) {
-				options.proxyReqPathResolver = req => req.originalUrl;
-			}
-			options.proxyReqOptDecorator = proxyReqOptions => {
-				if(host.insecure) {
-					proxyReqOptions.rejectUnauthorized = false;
-				}
-				if(requestHeaders) {
-					Object.assign(proxyReqOptions.headers, requestHeaders);
-				}
-				return proxyReqOptions;
-			};
+		let { requestHeaders, responseHeaders, log } = host;
+		let options = {};
 
-			if(responseHeaders) {
-				options.userResHeaderDecorator = headers => Object.assign({},
-						headers, responseHeaders);
+		if(host.preserveHost) {
+			options.preserveHostHdr = true;
+		}
+		if(host.preservePrefix) {
+			options.proxyReqPathResolver = req => req.originalUrl;
+		}
+		options.proxyReqOptDecorator = proxyReqOptions => {
+			if(host.insecure) {
+				proxyReqOptions.rejectUnauthorized = false;
 			}
+			if(requestHeaders) {
+				Object.assign(proxyReqOptions.headers, requestHeaders);
+			}
+			return proxyReqOptions;
+		};
 
-			if(log) {
-				if(!log.call) {
-					let prefix = log === true ? "" : `${log} `;
-					log = req => { // eslint-disable-next-line no-console
-						console.log(`${prefix}${req.method} ${req.url}`);
-					};
-				}
-				options.filter = req => { // XXX: hacky
-					log(req);
-					return true;
+		if(responseHeaders) {
+			options.userResHeaderDecorator = headers => Object.assign({},
+					headers, responseHeaders);
+		}
+
+		if(log) {
+			if(!log.call) {
+				let prefix = log === true ? "" : `${log} `;
+				log = req => { // eslint-disable-next-line no-console
+					console.log(`${prefix}${req.method} ${req.url}`);
 				};
 			}
-
-			app.use(route, proxy(uri, options));
+			options.filter = req => { // XXX: hacky
+				log(req);
+				return true;
+			};
 		}
+
+		app.use(route, proxy(uri, options));
 	});
 
 	let server = app.listen(port, host, _ => {
