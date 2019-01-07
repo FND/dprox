@@ -53,7 +53,7 @@ an optional `self` entry defines the proxy's own address (which defaults to
 
 each entry is either a URI string, an
 [Express middleware function](http://expressjs.com/en/guide/using-middleware.html)
-or an object with the following options:
+(see below) or an object with the following options:
 
 * `uri` is the address to pass requests to
 * `preserveHost: true` passes the HTTP `Host` header through to the respective
@@ -72,6 +72,21 @@ or an object with the following options:
       request object (e.g. `log: req => { console.log(req.method + req.url); }`)
     * otherwise the value, unless `true`, will be prepended to the default log
       message (e.g. `log: "[PROXY]"`)
+
+middleware functions to
+[serve static files](http://expressjs.com/en/starter/static-files.html) from a
+corresponding directory or to mock a JSON response might look like this:
+
+```javascript
+    "/assets": require("express").static("static"),
+    "/data": (req, res, next) => {
+        let data = {
+            foo: "hello",
+            bar: "world"
+        };
+        return res.json(data);
+    }
+```
 
 
 Contributing
