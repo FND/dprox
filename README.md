@@ -49,7 +49,10 @@ Configuration
 `proxy.config.js` is expected to export an object mapping paths to applications
 
 an optional `self` entry defines the proxy's own address (which defaults to
-`"localhost:3333"`)
+`"localhost:3333"`) - this is either a string or a `{ uri, limit }` object
+(`limit` sets the request body size limit - see
+[express-http-proxy documentation](https://github.com/villadora/express-http-proxy#limit)
+for details)
 
 each entry is either a URI string, an
 [Express middleware function](http://expressjs.com/en/guide/using-middleware.html)

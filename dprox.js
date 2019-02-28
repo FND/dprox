@@ -20,12 +20,20 @@ function main(args, referenceDir) {
 	config = path.resolve(referenceDir, config);
 
 	let hosts = loadConfig(config);
-	let [host, port] = hosts.self.split(":"); // XXX: brittle
+
+	let { self } = hosts;
+	if(self.substr) {
+		self = { uri: self };
+	}
+	let [host, port] = self.uri.split(":"); // XXX: brittle
 	delete hosts.self;
-	makeProxy(host, parseInt(port, 10), hosts);
+
+	let { limit } = self;
+	let options = limit ? { limit } : {};
+	makeProxy(host, parseInt(port, 10), hosts, options);
 }
 
-function makeProxy(host, port, hosts) {
+function makeProxy(host, port, hosts, options) {
 	let app = express();
 
 	Object.keys(hosts).forEach(route => {
@@ -38,13 +46,11 @@ function makeProxy(host, port, hosts) {
 
 		let { uri } = host;
 		if(uri === undefined) { // `host` is the URI
-			app.use(route, proxy(host));
+			app.use(route, proxy(host, options));
 			return;
 		}
 
 		let { requestHeaders, responseHeaders, log } = host;
-		let options = {};
-
 		if(host.preserveHost) {
 			options.preserveHostHdr = true;
 		}
