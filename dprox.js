@@ -33,10 +33,11 @@ function main(args, referenceDir) {
 	makeProxy(host, parseInt(port, 10), hosts, options);
 }
 
-function makeProxy(host, port, hosts, options) {
+function makeProxy(host, port, hosts, defaults) {
 	let app = express();
 
 	Object.keys(hosts).forEach(route => {
+		let options = Object.assign({}, defaults);
 		let host = hosts[route];
 
 		if(host.call) { // `host` is an Express middleware function
