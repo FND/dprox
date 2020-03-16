@@ -28,6 +28,6 @@
 	},
 	"devDependencies": {
 		"eslint-config-fnd": "^1.6.0",
-		"release-util-fnd": "^1.1.1"
+		"release-util-fnd": "^2.0.0"
 	}
 }
